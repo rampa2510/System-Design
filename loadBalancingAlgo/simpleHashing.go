@@ -16,7 +16,13 @@ func SimpleHashing() {
 	commons.AcceptInput("Enter number of servers: ", &numberOfServers)
 
 	for {
-		commons.AcceptInput("Enter clientId :", &clientId)
+		commons.AcceptInput("Enter clientId (0 to exit):", &clientId)
+
+		if clientId == 0 {
+			fmt.Println("Exiting simple hasing algo. Goodbye!")
+			return
+		}
+
 		message := fmt.Sprintf("The request with %d will be route to server %d", clientId, getServerNumber(numberOfServers, clientId))
 		fmt.Println(message)
 	}
