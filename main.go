@@ -15,6 +15,7 @@ var AlgorithmMap = map[int]struct {
 	1: {"Simple Hashing", loadbalancingalgo.SimpleHashing},
 	2: {"Consistent Hashing", loadbalancingalgo.ConsistentHashing},
 	3: {"Weighted round robin", loadbalancingalgo.WeightedRoundRobin},
+	4: {"Least connection", loadbalancingalgo.LeastConnection},
 }
 
 func main() {

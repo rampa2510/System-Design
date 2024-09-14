@@ -6,12 +6,12 @@ import (
 	"github.com/rampa2510/system-design/commons"
 )
 
-type ServerNode struct {
+type WeightedRoundRobinServerNode struct {
 	weight      int
 	connections int
 }
 
-func getSystemState(serverNodes []ServerNode) {
+func getSystemState(serverNodes []WeightedRoundRobinServerNode) {
 
 	noOfServers := len(serverNodes)
 	for i := 0; i < noOfServers; i++ {
@@ -20,7 +20,7 @@ func getSystemState(serverNodes []ServerNode) {
 	}
 }
 
-func serveRequests(serverNodes *[]ServerNode) {
+func serveRequests(serverNodes *[]WeightedRoundRobinServerNode) {
 
 	noOfServers := len(*serverNodes)
 
@@ -44,7 +44,7 @@ func WeightedRoundRobin() {
 		return
 	}
 
-	serverNodes := make([]ServerNode, noOfServers)
+	serverNodes := make([]WeightedRoundRobinServerNode, noOfServers)
 
 	var weight int
 	for i := 0; i < noOfServers; i++ {
