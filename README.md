@@ -7,3 +7,4 @@ These are algorithms I wrote while learning different system design concepts.
 
 1. [Load Balancing Algorithms](loadBalancingAlgo)
    1. [Simple Hashing](loadBalancingAlgo/simpleHashing.go)
+   2. [Consistent Hashing](loadBalancingAlgo/consistentHashing.go)
