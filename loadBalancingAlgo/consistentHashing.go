@@ -2,20 +2,33 @@ package loadbalancingalgo
 
 import (
 	"fmt"
-
 	"github.com/rampa2510/system-design/commons"
 )
 
 func addServer(serverRing *[]int) {
 	*serverRing = append(*serverRing, 1)
-
 }
 
 func removeServer(serverRing *[]int) {
 	lenOfServerRing := len(*serverRing)
+	if lenOfServerRing > 0 {
+		*serverRing = (*serverRing)[:lenOfServerRing-1]
+	}
+}
 
-	(*serverRing)[lenOfServerRing-1] = 0
-
+func getServerForClientId(clientId int, serverRing []int) int {
+	lenOfServerRing := len(serverRing)
+	if lenOfServerRing == 0 {
+		return -1
+	}
+	initialServerIdx := clientId % lenOfServerRing
+	for i := 0; i < lenOfServerRing; i++ {
+		idx := (initialServerIdx + i) % lenOfServerRing
+		if serverRing[idx] == 1 {
+			return idx
+		}
+	}
+	return -1
 }
 
 func printServerRing(serverRing []int) {
@@ -28,53 +41,44 @@ func ConsistentHashing() {
 	var serverRing []int
 	var numberOfInitialServers int
 
-	type actionFunc func(*[]int)
-
-	var actionMap = map[int]struct {
-		actionType string
-		function   actionFunc
-	}{
-		1: {"Add Server at the end", addServer},
-		2: {"Remove Server at the end", removeServer},
-	}
-
 	commons.AcceptInput("Enter number of initial servers (0 to exit):", &numberOfInitialServers)
-
 	if numberOfInitialServers == 0 {
 		fmt.Println("Exiting consistent hashing alg. GoodBye!")
 		return
 	}
 
-	for i := 0; i <= numberOfInitialServers; i++ {
+	for i := 0; i < numberOfInitialServers; i++ {
 		serverRing = append(serverRing, 1)
 	}
 
-	// for i, v := range serverRing {
-	// 	message := fmt.Sprintf("index %d value %d", i, v)
-	// 	fmt.Println(message)
-	// }
-
 	for {
-		for num, action := range actionMap {
-			fmt.Printf("%d. %s\n", num, action.actionType)
-		}
+		fmt.Println("\nChoose an action:")
+		fmt.Println("1. Add Server at the end")
+		fmt.Println("2. Remove Server at the end")
+		fmt.Println("3. Get Server for Client")
+		fmt.Println("0. Exit")
 
 		var actionChoice int
-		commons.AcceptInput("Enter action choice (0 to exit):", &actionChoice)
+		commons.AcceptInput("Enter action choice:", &actionChoice)
 
-		if actionChoice == 0 {
+		switch actionChoice {
+		case 0:
 			fmt.Println("Exiting Consistent hashing program. Goodbye!")
 			return
-		}
-
-		if action, ok := actionMap[actionChoice]; ok {
-			action.function(&serverRing)
-		}
-
-		if actionChoice < 3 {
+		case 1:
+			addServer(&serverRing)
 			printServerRing(serverRing)
-
+		case 2:
+			removeServer(&serverRing)
+			printServerRing(serverRing)
+		case 3:
+			var clientId int
+			commons.AcceptInput("Enter Client Id: ", &clientId)
+			serverIdx := getServerForClientId(clientId, serverRing)
+			fmt.Printf("Client with id %d will be assigned server with idx %d.\n", clientId, serverIdx)
+		default:
+			fmt.Println("Invalid choice. Please try again.")
 		}
 	}
-
 }
+
