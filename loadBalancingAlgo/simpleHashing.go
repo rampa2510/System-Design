@@ -6,7 +6,7 @@ import (
 )
 
 func getServerNumber(noOfServers, clientId int) int {
-	return clientId % noOfServers
+	return (clientId % noOfServers) + 1
 }
 
 func main() {
