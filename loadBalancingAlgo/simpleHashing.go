@@ -1,4 +1,4 @@
-package main
+package loadbalancingalgo
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ func getServerNumber(noOfServers, clientId int) int {
 	return (clientId % noOfServers) + 1
 }
 
-func main() {
+func SimpleHashing() {
 	var numberOfServers int
 	var clientId int
 
