@@ -13,6 +13,7 @@ var AlgorithmMap = map[int]struct {
 	Func AlgorithmFunc
 }{
 	1: {"Simple Hashing", loadbalancingalgo.SimpleHashing},
+	2: {"Consistent Hashing", loadbalancingalgo.ConsistentHashing},
 }
 
 func main() {
